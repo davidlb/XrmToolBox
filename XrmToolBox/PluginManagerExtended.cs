@@ -6,13 +6,15 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
 
 namespace XrmToolBox
 {
     public class PluginManagerExtended : MarshalByRefObject
     {
-        private static readonly string PluginPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Plugins");
+        //private static readonly string PluginPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Plugins");
+        private static readonly string PluginPath = Paths.PluginsPath;
         private CompositionContainer container;
         private DirectoryCatalog directoryCatalog;
         private DateTime lastPluginsUpdate;
@@ -20,6 +22,11 @@ namespace XrmToolBox
         public PluginManagerExtended(Form parentForm)
         {
             lastPluginsUpdate = DateTime.Now;
+
+            if (!Directory.Exists(PluginPath))
+            {
+                Directory.CreateDirectory(PluginPath);
+            }
 
             var watcher = new FileSystemWatcher(PluginPath)
             {
@@ -32,6 +39,8 @@ namespace XrmToolBox
         }
 
         public event EventHandler PluginsListUpdated;
+
+        public bool IsWatchingForNewPlugins { get; set; }
 
         [ImportMany(AllowRecomposition = true)]
         public IEnumerable<Lazy<IXrmToolBoxPlugin, IPluginMetadata>> Plugins { get; set; }
@@ -80,7 +89,10 @@ namespace XrmToolBox
             {
                 ((FileSystemWatcher)sender).EnableRaisingEvents = false;
 
-                PluginsListUpdated(this, new EventArgs());
+                if (IsWatchingForNewPlugins)
+                {
+                    PluginsListUpdated(this, new EventArgs());
+                }
             }
             finally
             {

@@ -32,7 +32,6 @@ namespace XrmToolBox
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -43,6 +42,7 @@ namespace XrmToolBox
             this.closeAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeAllTabsExceptActiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbOptions = new System.Windows.Forms.ToolStripButton();
+            this.tsbPlugins = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tslFilterPlugin = new System.Windows.Forms.ToolStripLabel();
             this.tstxtFilterPlugin = new System.Windows.Forms.ToolStripTextBox();
@@ -73,24 +73,45 @@ namespace XrmToolBox
             this.donateDollarPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.donateEuroPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.donateGbpPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCheckForUpdate = new System.Windows.Forms.ToolStripButton();
+            this.pluginsCheckerImageList = new System.Windows.Forms.ImageList(this.components);
+            this.cmsOnePlugin = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiOpenProjectHomePage = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiShortcutTool = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiShortcutToolConnection = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiHidePlugin = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiUninstallPlugin = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlSupport = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.llDonate = new System.Windows.Forms.LinkLabel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.llDismiss = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.HomePageTab = new System.Windows.Forms.TabPage();
+            this.pnlPlugins = new System.Windows.Forms.Panel();
+            this.pnlNoPluginFound = new System.Windows.Forms.Panel();
+            this.llResetSearchFilter = new System.Windows.Forms.LinkLabel();
+            this.pbOpenPluginsStore = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblPluginsNotFoundText = new System.Windows.Forms.Label();
             this.pnlHelp = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
+            this.cmsOnePlugin.SuspendLayout();
+            this.pnlSupport.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.HomePageTab.SuspendLayout();
+            this.pnlNoPluginFound.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOpenPluginsStore)).BeginInit();
             this.pnlHelp.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "access.png");
-            this.imageList1.Images.SetKeyName(1, "acroread.png");
-            this.imageList1.Images.SetKeyName(2, "agent.png");
             // 
             // toolStrip1
             // 
@@ -101,6 +122,7 @@ namespace XrmToolBox
             this.toolStripSeparator5,
             this.tsbManageTabs,
             this.tsbOptions,
+            this.tsbPlugins,
             this.toolStripSeparator1,
             this.tslFilterPlugin,
             this.tstxtFilterPlugin,
@@ -109,9 +131,12 @@ namespace XrmToolBox
             this.toolStripSeparator3,
             this.tsbCodePlex,
             this.toolStripSeparator4,
-            this.tsbDonate});
+            this.tsbDonate,
+            this.toolStripSeparator8,
+            this.tsbCheckForUpdate});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.toolStrip1.Size = new System.Drawing.Size(884, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
@@ -187,6 +212,15 @@ namespace XrmToolBox
             this.tsbOptions.Text = "Settings";
             this.tsbOptions.Click += new System.EventHandler(this.TsbOptionsClick);
             // 
+            // tsbPlugins
+            // 
+            this.tsbPlugins.Image = ((System.Drawing.Image)(resources.GetObject("tsbPlugins.Image")));
+            this.tsbPlugins.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPlugins.Name = "tsbPlugins";
+            this.tsbPlugins.Size = new System.Drawing.Size(96, 22);
+            this.tsbPlugins.Text = "Plugins Store";
+            this.tsbPlugins.Click += new System.EventHandler(this.tsbPlugins_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -200,10 +234,10 @@ namespace XrmToolBox
             // 
             // tstxtFilterPlugin
             // 
-            this.tstxtFilterPlugin.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tstxtFilterPlugin.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.tstxtFilterPlugin.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.tstxtFilterPlugin.Name = "tstxtFilterPlugin";
-            this.tstxtFilterPlugin.Size = new System.Drawing.Size(150, 25);
+            this.tstxtFilterPlugin.Size = new System.Drawing.Size(59, 25);
             this.tstxtFilterPlugin.ToolTipText = "Filter by plugin name or company name";
             this.tstxtFilterPlugin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tstxtFilterPlugin_KeyDown);
             this.tstxtFilterPlugin.TextChanged += new System.EventHandler(this.tstxtFilterPlugin_TextChanged);
@@ -427,6 +461,181 @@ namespace XrmToolBox
             this.donateGbpPluginMenuItem.Text = "Donate in GBP";
             this.donateGbpPluginMenuItem.Click += new System.EventHandler(this.donateGbpPluginMenuItem_Click);
             // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbCheckForUpdate
+            // 
+            this.tsbCheckForUpdate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbCheckForUpdate.Image = ((System.Drawing.Image)(resources.GetObject("tsbCheckForUpdate.Image")));
+            this.tsbCheckForUpdate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCheckForUpdate.Name = "tsbCheckForUpdate";
+            this.tsbCheckForUpdate.Size = new System.Drawing.Size(23, 22);
+            this.tsbCheckForUpdate.Text = "Check for update";
+            this.tsbCheckForUpdate.Click += new System.EventHandler(this.tsbCheckForUpdate_Click);
+            // 
+            // pluginsCheckerImageList
+            // 
+            this.pluginsCheckerImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("pluginsCheckerImageList.ImageStream")));
+            this.pluginsCheckerImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.pluginsCheckerImageList.Images.SetKeyName(0, "plugin.png");
+            this.pluginsCheckerImageList.Images.SetKeyName(1, "plugin.png");
+            this.pluginsCheckerImageList.Images.SetKeyName(2, "PluginsStore16.png");
+            this.pluginsCheckerImageList.Images.SetKeyName(3, "PluginsStore16green.png");
+            // 
+            // cmsOnePlugin
+            // 
+            this.cmsOnePlugin.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiOpenProjectHomePage,
+            this.toolStripSeparator9,
+            this.tsmiShortcutTool,
+            this.tsmiShortcutToolConnection,
+            this.toolStripSeparator7,
+            this.tsmiHidePlugin,
+            this.tsmiUninstallPlugin});
+            this.cmsOnePlugin.Name = "cmsOnePlugin";
+            this.cmsOnePlugin.Size = new System.Drawing.Size(278, 126);
+            // 
+            // tsmiOpenProjectHomePage
+            // 
+            this.tsmiOpenProjectHomePage.Name = "tsmiOpenProjectHomePage";
+            this.tsmiOpenProjectHomePage.Size = new System.Drawing.Size(277, 22);
+            this.tsmiOpenProjectHomePage.Text = "Open project home page";
+            this.tsmiOpenProjectHomePage.Click += new System.EventHandler(this.tsmiOpenProjectHomePage_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(274, 6);
+            // 
+            // tsmiShortcutTool
+            // 
+            this.tsmiShortcutTool.Name = "tsmiShortcutTool";
+            this.tsmiShortcutTool.Size = new System.Drawing.Size(277, 22);
+            this.tsmiShortcutTool.Text = "Create shortcut (Tool)";
+            this.tsmiShortcutTool.Click += new System.EventHandler(this.tsmiShortcutTool_Click);
+            // 
+            // tsmiShortcutToolConnection
+            // 
+            this.tsmiShortcutToolConnection.Name = "tsmiShortcutToolConnection";
+            this.tsmiShortcutToolConnection.Size = new System.Drawing.Size(277, 22);
+            this.tsmiShortcutToolConnection.Text = "Create shortcut (Tool and Connection)";
+            this.tsmiShortcutToolConnection.Click += new System.EventHandler(this.tsmiShortcutToolConnection_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(274, 6);
+            // 
+            // tsmiHidePlugin
+            // 
+            this.tsmiHidePlugin.Name = "tsmiHidePlugin";
+            this.tsmiHidePlugin.Size = new System.Drawing.Size(277, 22);
+            this.tsmiHidePlugin.Text = "Hide";
+            this.tsmiHidePlugin.Click += new System.EventHandler(this.tsmiHidePlugin_Click);
+            // 
+            // tsmiUninstallPlugin
+            // 
+            this.tsmiUninstallPlugin.Name = "tsmiUninstallPlugin";
+            this.tsmiUninstallPlugin.Size = new System.Drawing.Size(277, 22);
+            this.tsmiUninstallPlugin.Text = "Uninstall";
+            this.tsmiUninstallPlugin.Click += new System.EventHandler(this.tsmiUninstallPlugin_Click);
+            // 
+            // pnlSupport
+            // 
+            this.pnlSupport.BackColor = System.Drawing.Color.White;
+            this.pnlSupport.Controls.Add(this.pictureBox2);
+            this.pnlSupport.Controls.Add(this.llDonate);
+            this.pnlSupport.Controls.Add(this.label5);
+            this.pnlSupport.Controls.Add(this.label4);
+            this.pnlSupport.Controls.Add(this.lblTitle);
+            this.pnlSupport.Controls.Add(this.llDismiss);
+            this.pnlSupport.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlSupport.Location = new System.Drawing.Point(0, 432);
+            this.pnlSupport.Name = "pnlSupport";
+            this.pnlSupport.Size = new System.Drawing.Size(884, 67);
+            this.pnlSupport.TabIndex = 3;
+            this.pnlSupport.Visible = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(656, 10);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(158, 45);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 22;
+            this.pictureBox2.TabStop = false;
+            // 
+            // llDonate
+            // 
+            this.llDonate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.llDonate.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.llDonate.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.llDonate.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.llDonate.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.llDonate.Location = new System.Drawing.Point(333, 43);
+            this.llDonate.Name = "llDonate";
+            this.llDonate.Size = new System.Drawing.Size(307, 16);
+            this.llDonate.TabIndex = 21;
+            this.llDonate.TabStop = true;
+            this.llDonate.Text = "Click here to donate";
+            this.llDonate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.llDonate.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.llDonate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llDonate_LinkClicked);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label5.Location = new System.Drawing.Point(330, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(320, 38);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "XrmToolBox is free and it won\'t change. But you can show your support by making a" +
+    " donation to its author.";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label4.Location = new System.Drawing.Point(97, 39);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(124, 20);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Donate on PayPal";
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F);
+            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblTitle.Location = new System.Drawing.Point(3, 3);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(341, 35);
+            this.lblTitle.TabIndex = 9;
+            this.lblTitle.Text = "How can I help MscrmTools?";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // llDismiss
+            // 
+            this.llDismiss.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llDismiss.AutoSize = true;
+            this.llDismiss.Location = new System.Drawing.Point(839, 3);
+            this.llDismiss.Name = "llDismiss";
+            this.llDismiss.Size = new System.Drawing.Size(42, 13);
+            this.llDismiss.TabIndex = 0;
+            this.llDismiss.TabStop = true;
+            this.llDismiss.Text = "Dismiss";
+            this.llDismiss.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llDismiss_LinkClicked);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.HomePageTab);
@@ -435,33 +644,112 @@ namespace XrmToolBox
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(884, 572);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl1.Size = new System.Drawing.Size(884, 407);
+            this.tabControl1.TabIndex = 4;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseClick);
             // 
             // HomePageTab
             // 
             this.HomePageTab.AutoScroll = true;
+            this.HomePageTab.Controls.Add(this.pnlPlugins);
+            this.HomePageTab.Controls.Add(this.pnlNoPluginFound);
             this.HomePageTab.Controls.Add(this.pnlHelp);
             this.HomePageTab.Location = new System.Drawing.Point(4, 22);
             this.HomePageTab.Name = "HomePageTab";
             this.HomePageTab.Padding = new System.Windows.Forms.Padding(3);
-            this.HomePageTab.Size = new System.Drawing.Size(876, 546);
+            this.HomePageTab.Size = new System.Drawing.Size(876, 381);
             this.HomePageTab.TabIndex = 0;
             this.HomePageTab.Text = "Home";
             this.HomePageTab.UseVisualStyleBackColor = true;
             // 
+            // pnlPlugins
+            // 
+            this.pnlPlugins.AutoScroll = true;
+            this.pnlPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlPlugins.Location = new System.Drawing.Point(3, 3);
+            this.pnlPlugins.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlPlugins.Name = "pnlPlugins";
+            this.pnlPlugins.Size = new System.Drawing.Size(870, 375);
+            this.pnlPlugins.TabIndex = 3;
+            // 
+            // pnlNoPluginFound
+            // 
+            this.pnlNoPluginFound.BackColor = System.Drawing.Color.White;
+            this.pnlNoPluginFound.Controls.Add(this.llResetSearchFilter);
+            this.pnlNoPluginFound.Controls.Add(this.pbOpenPluginsStore);
+            this.pnlNoPluginFound.Controls.Add(this.label3);
+            this.pnlNoPluginFound.Controls.Add(this.lblPluginsNotFoundText);
+            this.pnlNoPluginFound.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlNoPluginFound.Location = new System.Drawing.Point(3, 3);
+            this.pnlNoPluginFound.Name = "pnlNoPluginFound";
+            this.pnlNoPluginFound.Size = new System.Drawing.Size(870, 375);
+            this.pnlNoPluginFound.TabIndex = 2;
+            this.pnlNoPluginFound.Visible = false;
+            this.pnlNoPluginFound.Resize += new System.EventHandler(this.pnlNoPluginFound_Resize);
+            // 
+            // llResetSearchFilter
+            // 
+            this.llResetSearchFilter.AutoSize = true;
+            this.llResetSearchFilter.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(117)))), ((int)(((byte)(188)))));
+            this.llResetSearchFilter.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(117)))), ((int)(((byte)(188)))));
+            this.llResetSearchFilter.Location = new System.Drawing.Point(369, 265);
+            this.llResetSearchFilter.Name = "llResetSearchFilter";
+            this.llResetSearchFilter.Size = new System.Drawing.Size(129, 13);
+            this.llResetSearchFilter.TabIndex = 3;
+            this.llResetSearchFilter.TabStop = true;
+            this.llResetSearchFilter.Text = "or reset the search filter";
+            this.llResetSearchFilter.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llResetSearchFilter_LinkClicked);
+            // 
+            // pbOpenPluginsStore
+            // 
+            this.pbOpenPluginsStore.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbOpenPluginsStore.Image = ((System.Drawing.Image)(resources.GetObject("pbOpenPluginsStore.Image")));
+            this.pbOpenPluginsStore.Location = new System.Drawing.Point(233, 156);
+            this.pbOpenPluginsStore.Margin = new System.Windows.Forms.Padding(2);
+            this.pbOpenPluginsStore.Name = "pbOpenPluginsStore";
+            this.pbOpenPluginsStore.Size = new System.Drawing.Size(400, 83);
+            this.pbOpenPluginsStore.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbOpenPluginsStore.TabIndex = 2;
+            this.pbOpenPluginsStore.TabStop = false;
+            this.pbOpenPluginsStore.Click += new System.EventHandler(this.pbOpenPluginsStore_Click);
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(117)))), ((int)(((byte)(188)))));
+            this.label3.Location = new System.Drawing.Point(0, 52);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(870, 52);
+            this.label3.TabIndex = 1;
+            this.label3.Tag = "";
+            this.label3.Text = "Please redefine the criteria, reset it, or download some new plugins from our plu" +
+    "gin store";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPluginsNotFoundText
+            // 
+            this.lblPluginsNotFoundText.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblPluginsNotFoundText.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPluginsNotFoundText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(117)))), ((int)(((byte)(188)))));
+            this.lblPluginsNotFoundText.Location = new System.Drawing.Point(0, 0);
+            this.lblPluginsNotFoundText.Name = "lblPluginsNotFoundText";
+            this.lblPluginsNotFoundText.Size = new System.Drawing.Size(870, 52);
+            this.lblPluginsNotFoundText.TabIndex = 0;
+            this.lblPluginsNotFoundText.Tag = "Searching for \"{0}\" did not match any plugins installed";
+            this.lblPluginsNotFoundText.Text = "Searching for \"{0}\" did not match any plugins installed";
+            this.lblPluginsNotFoundText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pnlHelp
             // 
-            this.pnlHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlHelp.BackColor = System.Drawing.Color.White;
             this.pnlHelp.Controls.Add(this.label2);
             this.pnlHelp.Controls.Add(this.label1);
-            this.pnlHelp.Location = new System.Drawing.Point(3, 6);
+            this.pnlHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlHelp.Location = new System.Drawing.Point(3, 3);
             this.pnlHelp.Name = "pnlHelp";
-            this.pnlHelp.Size = new System.Drawing.Size(865, 536);
+            this.pnlHelp.Size = new System.Drawing.Size(870, 375);
             this.pnlHelp.TabIndex = 0;
             this.pnlHelp.Visible = false;
             // 
@@ -472,19 +760,18 @@ namespace XrmToolBox
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(5, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(857, 113);
+            this.label2.Size = new System.Drawing.Size(862, 113);
             this.label2.TabIndex = 1;
             this.label2.Text = resources.GetString("label2.Text");
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(5, 0);
+            this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(857, 33);
+            this.label1.Size = new System.Drawing.Size(870, 33);
             this.label1.TabIndex = 0;
             this.label1.Text = "Oups... no plugin found!";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -493,8 +780,9 @@ namespace XrmToolBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 597);
+            this.ClientSize = new System.Drawing.Size(884, 499);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.pnlSupport);
             this.Controls.Add(this.toolStrip1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -508,8 +796,15 @@ namespace XrmToolBox
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.cmsOnePlugin.ResumeLayout(false);
+            this.pnlSupport.ResumeLayout(false);
+            this.pnlSupport.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.HomePageTab.ResumeLayout(false);
+            this.pnlNoPluginFound.ResumeLayout(false);
+            this.pnlNoPluginFound.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOpenPluginsStore)).EndInit();
             this.pnlHelp.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -517,8 +812,6 @@ namespace XrmToolBox
         }
 
         #endregion
-
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tsbConnect;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -538,11 +831,6 @@ namespace XrmToolBox
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem donateInGBPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeCurrentTabToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage HomePageTab;
-        private System.Windows.Forms.Panel pnlHelp;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem GithubXrmToolBoxMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CodePlexPluginMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportABugPluginToolStripMenuItem;
@@ -564,6 +852,36 @@ namespace XrmToolBox
         private System.Windows.Forms.ToolStripMenuItem HelpSelectedPluginToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem displayHelpPluginToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutXrmToolBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton tsbPlugins;
+        private System.Windows.Forms.ImageList pluginsCheckerImageList;
+        private System.Windows.Forms.ContextMenuStrip cmsOnePlugin;
+        private System.Windows.Forms.ToolStripMenuItem tsmiOpenProjectHomePage;
+        private System.Windows.Forms.ToolStripMenuItem tsmiHidePlugin;
+        private System.Windows.Forms.ToolStripMenuItem tsmiUninstallPlugin;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripButton tsbCheckForUpdate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem tsmiShortcutTool;
+        private System.Windows.Forms.ToolStripMenuItem tsmiShortcutToolConnection;
+        private System.Windows.Forms.Panel pnlSupport;
+        private System.Windows.Forms.LinkLabel llDismiss;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage HomePageTab;
+        private System.Windows.Forms.Panel pnlPlugins;
+        private System.Windows.Forms.Panel pnlNoPluginFound;
+        private System.Windows.Forms.LinkLabel llResetSearchFilter;
+        private System.Windows.Forms.PictureBox pbOpenPluginsStore;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblPluginsNotFoundText;
+        private System.Windows.Forms.Panel pnlHelp;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.LinkLabel llDonate;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 

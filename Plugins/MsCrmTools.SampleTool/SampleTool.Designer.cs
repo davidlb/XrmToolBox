@@ -28,62 +28,133 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnWhoAmI = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SampleTool));
+            this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.cbMultipleCalls = new System.Windows.Forms.CheckBox();
+            this.toolStripMenu = new System.Windows.Forms.ToolStrip();
+            this.tsbClose = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbWhoAmI = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCancel = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.gbOptions.SuspendLayout();
+            this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnClose
+            // gbOptions
             // 
-            this.btnClose.Location = new System.Drawing.Point(4, 5);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(112, 35);
-            this.btnClose.TabIndex = 0;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.BtnCloseClick);
+            this.gbOptions.Controls.Add(this.cbMultipleCalls);
+            this.gbOptions.Location = new System.Drawing.Point(24, 66);
+            this.gbOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbOptions.Name = "gbOptions";
+            this.gbOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbOptions.Size = new System.Drawing.Size(243, 76);
+            this.gbOptions.TabIndex = 3;
+            this.gbOptions.TabStop = false;
+            this.gbOptions.Text = "Options";
             // 
-            // btnWhoAmI
+            // cbMultipleCalls
             // 
-            this.btnWhoAmI.Location = new System.Drawing.Point(4, 49);
-            this.btnWhoAmI.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnWhoAmI.Name = "btnWhoAmI";
-            this.btnWhoAmI.Size = new System.Drawing.Size(112, 35);
-            this.btnWhoAmI.TabIndex = 1;
-            this.btnWhoAmI.Text = "Who Am I";
-            this.btnWhoAmI.UseVisualStyleBackColor = true;
-            this.btnWhoAmI.Click += new System.EventHandler(this.BtnWhoAmIClick);
+            this.cbMultipleCalls.AutoSize = true;
+            this.cbMultipleCalls.Location = new System.Drawing.Point(20, 28);
+            this.cbMultipleCalls.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbMultipleCalls.Name = "cbMultipleCalls";
+            this.cbMultipleCalls.Size = new System.Drawing.Size(124, 24);
+            this.cbMultipleCalls.TabIndex = 0;
+            this.cbMultipleCalls.Text = "Multiple calls";
+            this.cbMultipleCalls.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
+            // toolStripMenu
             // 
-            this.btnCancel.Location = new System.Drawing.Point(4, 94);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 35);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbClose,
+            this.toolStripSeparator2,
+            this.tsbWhoAmI,
+            this.toolStripSeparator1,
+            this.tsbCancel,
+            this.toolStripSeparator3});
+            this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
+            this.toolStripMenu.Name = "toolStripMenu";
+            this.toolStripMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStripMenu.Size = new System.Drawing.Size(450, 32);
+            this.toolStripMenu.TabIndex = 4;
+            this.toolStripMenu.Text = "toolStrip1";
+            // 
+            // tsbClose
+            // 
+            this.tsbClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbClose.Image = ((System.Drawing.Image)(resources.GetObject("tsbClose.Image")));
+            this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbClose.Name = "tsbClose";
+            this.tsbClose.Size = new System.Drawing.Size(23, 29);
+            this.tsbClose.Text = "Close this tool";
+            this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 32);
+            // 
+            // tsbWhoAmI
+            // 
+            this.tsbWhoAmI.Image = ((System.Drawing.Image)(resources.GetObject("tsbWhoAmI.Image")));
+            this.tsbWhoAmI.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbWhoAmI.Name = "tsbWhoAmI";
+            this.tsbWhoAmI.Size = new System.Drawing.Size(110, 29);
+            this.tsbWhoAmI.Text = "Who am I";
+            this.tsbWhoAmI.ToolTipText = "Perfomrs a Who I Am request";
+            this.tsbWhoAmI.Click += new System.EventHandler(this.tsbWhoAmI_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 32);
+            // 
+            // tsbCancel
+            // 
+            this.tsbCancel.Enabled = false;
+            this.tsbCancel.Image = ((System.Drawing.Image)(resources.GetObject("tsbCancel.Image")));
+            this.tsbCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCancel.Name = "tsbCancel";
+            this.tsbCancel.Size = new System.Drawing.Size(83, 29);
+            this.tsbCancel.Text = "Cancel";
+            this.tsbCancel.ToolTipText = "Cancel the current request";
+            this.tsbCancel.Click += new System.EventHandler(this.tsbCancel_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 32);
             // 
             // SampleTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnWhoAmI);
-            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.toolStripMenu);
+            this.Controls.Add(this.gbOptions);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "SampleTool";
             this.Size = new System.Drawing.Size(450, 462);
+            this.Load += new System.EventHandler(this.SampleTool_Load);
+            this.gbOptions.ResumeLayout(false);
+            this.gbOptions.PerformLayout();
+            this.toolStripMenu.ResumeLayout(false);
+            this.toolStripMenu.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnWhoAmI;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.GroupBox gbOptions;
+        private System.Windows.Forms.CheckBox cbMultipleCalls;
+        private System.Windows.Forms.ToolStrip toolStripMenu;
+        private System.Windows.Forms.ToolStripButton tsbClose;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tsbWhoAmI;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton tsbCancel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

@@ -1,10 +1,13 @@
 ﻿using McTools.Xrm.Connection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using XrmToolBox.AppCode;
+using XrmToolBox.Extensibility;
 
 namespace XrmToolBox.Forms
 {
@@ -18,6 +21,8 @@ namespace XrmToolBox.Forms
         {
             InitializeComponent();
 
+            lblChangePathDescription.Text = string.Format(lblChangePathDescription.Text, Paths.XrmToolBoxPath);
+
             this.option = (Options)option.Clone();
             this.pManager = pManager;
 
@@ -25,7 +30,13 @@ namespace XrmToolBox.Forms
             rdbToolsListSmall.Checked = !option.DisplayLargeIcons;
             chkDisplayMuFirst.Checked = option.DisplayMostUsedFirst;
             chkAllowUsageStatistics.Checked = option.AllowLogUsage.HasValue && option.AllowLogUsage.Value;
+            chkCloseEachPluginSilently.Checked = option.CloseEachPluginSilently;
             chkClosePluginsSilently.Checked = option.CloseOpenedPluginsSilently;
+            chkDisplayPluginsStoreOnStartup.Checked = option.DisplayPluginsStoreOnStartup;
+            chkDisplayPluginsStoreOnlyIfUpdates.Checked = option.DisplayPluginsStoreOnlyIfUpdates;
+            chkDoNotCheckForUpdate.Checked = option.DoNotCheckForUpdates;
+            chkMergeConnectionFiles.Checked = option.MergeConnectionFiles;
+            chkRememberSession.Checked = option.RememberSession;
         }
 
         public Options Option { get { return option; } }
@@ -41,7 +52,13 @@ namespace XrmToolBox.Forms
             option.AllowLogUsage = chkAllowUsageStatistics.Checked;
             option.DisplayLargeIcons = rdbToolsListLarge.Checked;
             option.DisplayMostUsedFirst = chkDisplayMuFirst.Checked;
+            option.CloseEachPluginSilently = chkCloseEachPluginSilently.Checked;
             option.CloseOpenedPluginsSilently = chkClosePluginsSilently.Checked;
+            option.DisplayPluginsStoreOnStartup = chkDisplayPluginsStoreOnStartup.Checked;
+            option.DisplayPluginsStoreOnlyIfUpdates = chkDisplayPluginsStoreOnlyIfUpdates.Checked;
+            option.DoNotCheckForUpdates = chkDoNotCheckForUpdate.Checked;
+            option.MergeConnectionFiles = chkMergeConnectionFiles.Checked;
+            option.RememberSession = chkRememberSession.Checked;
 
             option.HiddenPlugins =
                 lvPlugins.Items.Cast<ListViewItem>().Where(i => i.Checked == false).Select(i => i.Text).ToList();
@@ -74,7 +91,7 @@ namespace XrmToolBox.Forms
                 WebProxyHelper.ApplyProxy();
 
                 ConnectionManager.Instance.SaveConnectionsFile();
-
+                
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -100,11 +117,6 @@ namespace XrmToolBox.Forms
             chkByPassProxyOnLocal.Enabled = useCustomProxy;
             rbCustomAuthYes.Enabled = useCustomProxy;
             rbCustomAuthNo.Enabled = useCustomProxy;
-        }
-
-        private object GetAssemblyAttribute(Assembly assembly, Type attributeType)
-        {
-            return assembly.GetCustomAttributes(attributeType, true)[0];
         }
 
         private void OptionsDialog_Load(object sender, EventArgs e)
@@ -137,6 +149,40 @@ namespace XrmToolBox.Forms
         {
             txtProxyPassword.Enabled = rbCustomAuthYes.Checked;
             txtProxyUser.Enabled = rbCustomAuthYes.Checked;
+        }
+
+        private void chkCloseEachPluginSilently_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkCloseEachPluginSilently.Checked)
+            {
+                chkClosePluginsSilently.Enabled = false;
+                chkClosePluginsSilently.Checked = true;
+            }
+            else
+            {
+                chkClosePluginsSilently.Enabled = true;
+                chkClosePluginsSilently.Checked = option.CloseOpenedPluginsSilently;
+            }
+        }
+
+        private void chkDisplayPluginsStoreOnStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            chkDisplayPluginsStoreOnlyIfUpdates.Enabled = chkDisplayPluginsStoreOnStartup.Checked;
+
+            if (chkDisplayPluginsStoreOnStartup.Checked == false)
+            {
+                chkDisplayPluginsStoreOnlyIfUpdates.Checked = false;
+            }
+        }
+
+        private void llOpenStorageFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(Paths.XrmToolBoxPath);
+        }
+
+        private void llOpenRootFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName);
         }
     }
 }

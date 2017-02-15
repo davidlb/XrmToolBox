@@ -11,6 +11,7 @@ using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility.Interfaces;
+using XrmToolBox.Extensibility.UserControls;
 
 namespace XrmToolBox.Extensibility
 {
@@ -23,6 +24,13 @@ namespace XrmToolBox.Extensibility
     [PartNotDiscoverable]
     public class PluginControlBase : UserControl, IXrmToolBoxPluginControl, IWorkerHost
     {
+        private readonly LogManager logManager;
+
+        public PluginControlBase()
+        {
+            logManager = new LogManager(GetType());    
+        }
+
         public ConnectionDetail ConnectionDetail { get; set; }
 
         public void CloseTool()
@@ -38,7 +46,7 @@ namespace XrmToolBox.Extensibility
         {
             CloseTool();
         }
-
+        
         #region IMsCrmToolsPluginUserControl Members
 
         public event EventHandler OnCloseTool;
@@ -54,7 +62,8 @@ namespace XrmToolBox.Extensibility
         /// <param name="info"></param>
         public virtual void ClosingPlugin(PluginCloseInfo info)
         {
-            if (info.FormReason != CloseReason.None ||
+            if (info.Silent ||
+                info.FormReason != CloseReason.None ||
                 info.ToolBoxReason == ToolBoxCloseReason.CloseAll ||
                 info.ToolBoxReason == ToolBoxCloseReason.CloseAllExceptActive)
             {
@@ -107,7 +116,8 @@ namespace XrmToolBox.Extensibility
 
         #region IWorkerHost
 
-        private readonly Worker _worker = new Worker();
+        [ThreadStatic]
+        private static Worker _worker;
 
         public void CancelWorker()
         {
@@ -124,18 +134,20 @@ namespace XrmToolBox.Extensibility
 
         public void SetWorkingMessage(string message, int width = 340, int height = 150)
         {
+            //_worker = new Worker();
             _worker.SetWorkingMessage(this, message);
         }
 
         public void WorkAsync(WorkAsyncInfo info)
         {
             info.Host = this;
+            _worker = new Worker();
             _worker.WorkAsync(info);
         }
 
         #region Obsolete WorkAsync Calls
 
-        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method")]
+        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method", true)]
         public void WorkAsync(string message, Action<DoWorkEventArgs> work, object argument = null, int messageWidth = 340, int messageHeight = 150)
         {
             var info = new WorkAsyncInfo(message, work)
@@ -145,10 +157,10 @@ namespace XrmToolBox.Extensibility
                 MessageWidth = messageWidth,
                 MessageHeight = messageHeight
             };
-            _worker.WorkAsync(info);
+            WorkAsync(info);
         }
 
-        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method")]
+        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method", true)]
         public void WorkAsync(string message, Action<DoWorkEventArgs> work, Action<RunWorkerCompletedEventArgs> callback, object argument = null, int messageWidth = 340, int messageHeight = 150)
         {
             var info = new WorkAsyncInfo(message, work)
@@ -159,10 +171,10 @@ namespace XrmToolBox.Extensibility
                 MessageHeight = messageHeight,
                 PostWorkCallBack = callback
             };
-            _worker.WorkAsync(info);
+            WorkAsync(info);
         }
 
-        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method")]
+        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method", true)]
         public void WorkAsync(string message, Action<BackgroundWorker, DoWorkEventArgs> work, Action<RunWorkerCompletedEventArgs> callback,
                               Action<ProgressChangedEventArgs> progressChanged, object argument = null, int messageWidth = 340, int messageHeight = 150)
         {
@@ -174,12 +186,12 @@ namespace XrmToolBox.Extensibility
                 MessageHeight = messageHeight,
                 PostWorkCallBack = callback,
                 ProgressChanged = progressChanged
-                
+
             };
-            _worker.WorkAsync(info);
+            WorkAsync(info);
         }
 
-        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method")]
+        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method", true)]
         public void WorkAsync(string message, Action<BackgroundWorker, DoWorkEventArgs> work, object argument, bool enableCancellation, int messageWidth, int messageHeight)
         {
             var info = new WorkAsyncInfo(message, work)
@@ -191,10 +203,10 @@ namespace XrmToolBox.Extensibility
                 MessageHeight = messageHeight
 
             };
-            _worker.WorkAsync(info);
+            WorkAsync(info);
         }
 
-        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method")]
+        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method", true)]
         public void WorkAsync(string message, Action<BackgroundWorker, DoWorkEventArgs> work, Action<RunWorkerCompletedEventArgs> callback, object argument, bool enableCancellation, int messageWidth, int messageHeight)
         {
             var info = new WorkAsyncInfo(message, work)
@@ -206,10 +218,10 @@ namespace XrmToolBox.Extensibility
                 MessageHeight = messageHeight,
                 PostWorkCallBack = callback
             };
-            _worker.WorkAsync(info);
+            WorkAsync(info);
         }
 
-        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method")]
+        [Obsolete("Use IWorkerHost Interface WorkAsync(WorkAsynInfo) method", true)]
         public void WorkAsync(string message, Action<BackgroundWorker, DoWorkEventArgs> work, Action<RunWorkerCompletedEventArgs> callback, Action<ProgressChangedEventArgs> progressChanged, object argument, bool enableCancellation, int messageWidth, int messageHeight)
         {
             var info = new WorkAsyncInfo(message, work)
@@ -223,7 +235,7 @@ namespace XrmToolBox.Extensibility
                 ProgressChanged = progressChanged
 
             };
-            _worker.WorkAsync(info);
+            WorkAsync(info);
         }
 
         #endregion Obsolete WorkAsync Calls
@@ -321,6 +333,8 @@ namespace XrmToolBox.Extensibility
 
         protected virtual void OnConnectionUpdated(ConnectionUpdatedEventArgs e)
         {
+            logManager.SetConnection(e.ConnectionDetail);
+
             var handler = ConnectionUpdated;
             if (handler != null) { handler(this, e); }
         }
@@ -338,5 +352,99 @@ namespace XrmToolBox.Extensibility
         }
 
         #endregion Connection Updated
+
+        #region Logs
+
+        /// <summary>
+        /// Writes an information message in the log
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="args">Message parameters</param>
+        protected void LogInfo(string message, params object[] args)
+        {
+           logManager.LogInfo(message, args);
+        }
+
+        /// <summary>
+        /// Writes a warning message in the log
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="args">Message parameters</param>
+        protected void LogWarning(string message, params object[] args)
+        {
+            logManager.LogWarning(message, args);
+        }
+
+        /// <summary>
+        /// Writes an error message in the log
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="args">Message parameters</param>
+        protected void LogError(string message, params object[] args)
+        {
+            logManager.LogError(message, args);
+        }
+
+        /// <summary>
+        /// Opens the log file associated with the current plugin 
+        /// </summary>
+        protected void OpenLogFile()
+        {
+            logManager.OpenLog();
+        }
+
+        #endregion
+
+        #region Noticiation zone
+
+        protected void ShowInfoNotification(string message, Uri moreInfoUri, int height = 32)
+        {
+            var ctrls = Parent.Controls.Find("NotifPanel", false);
+            if (ctrls.Length == 1)
+            {
+                ((NotificationArea) ctrls[0]).ShowInfoNotification(message, moreInfoUri, height);
+            }
+            else
+            {
+                throw new Exception("Unable to find Notification Area control");
+            }
+        }
+
+        protected void ShowWarningNotification(string message, Uri moreInfoUri, int height = 32)
+        {
+            var ctrls = Parent.Controls.Find("NotifPanel", false);
+            if (ctrls.Length == 1)
+            {
+                ((NotificationArea)ctrls[0]).ShowWarningNotification(message, moreInfoUri, height);
+            }
+            else
+            {
+                throw new Exception("Unable to find Notification Area control");
+            }
+        }
+
+        protected void ShowErrorNotification(string message, Uri moreInfoUri, int height = 32)
+        {
+            var ctrls = Parent.Controls.Find("NotifPanel", false);
+            if (ctrls.Length == 1)
+            {
+                ((NotificationArea)ctrls[0]).ShowErrorNotification(message, moreInfoUri, height);
+            }
+            else
+            {
+                throw new Exception("Unable to find Notification Area control");
+            }
+        }
+
+        protected void HideNotification()
+        {
+            var ctrls = Parent.Controls.Find("NotifPanel", false);
+            if (ctrls.Length == 1)
+            {
+                ctrls[0].Visible = false;
+            }
+        }
+
+        #endregion
     }
 }

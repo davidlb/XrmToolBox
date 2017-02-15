@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using XrmToolBox.Extensibility;
 
 namespace XrmToolBox
 {
@@ -50,8 +51,8 @@ namespace XrmToolBox
             if (size.Height != 0)
             {
                 form.Size = size;
-                form.Top = (Screen.PrimaryScreen.WorkingArea.Height - size.Height) / 2;
-                form.Left = (Screen.PrimaryScreen.WorkingArea.Width - size.Width) / 2;
+                form.Top = (Screen.PrimaryScreen.WorkingArea.Height - size.Height)/2;
+                form.Left = (Screen.PrimaryScreen.WorkingArea.Width - size.Width)/2;
             }
         }
     }
@@ -66,13 +67,23 @@ namespace XrmToolBox
             Size = new FormSize();
             MostUsedList = new List<PluginUseCount>();
             AllowLogUsage = null;
+            DisplayPluginsStoreOnStartup = true;
+            HiddenPlugins = new List<string>();
         }
+
+        public bool? PluginsStoreShowIncompatible { get; set; }
+        public bool? PluginsStoreShowUpdates { get; set; }
+        public bool? PluginsStoreShowNew { get; set; }
+        public bool? PluginsStoreShowInstalled { get; set; }
 
         public bool? AllowLogUsage { get; set; }
         public bool CheckUpdateOnStartup { get; set; }
+        public bool CloseEachPluginSilently { get; set; }
         public bool CloseOpenedPluginsSilently { get; set; }
         public bool DisplayLargeIcons { get; set; }
         public bool DisplayMostUsedFirst { get; set; }
+        public bool DisplayPluginsStoreOnStartup { get; set; }
+        public bool DisplayPluginsStoreOnlyIfUpdates { get; set; }
         public List<string> HiddenPlugins { get; set; }
         public DateTime LastAdvertisementDisplay { get; set; }
         public DateTime LastUpdateCheck { get; set; }
@@ -81,17 +92,44 @@ namespace XrmToolBox
         [XmlElement("FormSize")]
         public FormSize Size { get; set; }
 
-        public static Options Load()
-        {
-            if (File.Exists("XrmToolBox.Settings.xml"))
-            {
-                var document = new XmlDocument();
-                document.Load("XrmToolBox.Settings.xml");
+        public bool DoNotCheckForUpdates { get; set; }
+        public bool MergeConnectionFiles { get; set; }
 
-                return (Options)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Options));
+        public string LastConnection { get; set; }
+        public string LastPlugin { get; set; }
+        public bool RememberSession { get; set; }
+
+        public static bool Load(out Options options, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+
+            if (!Directory.Exists(Paths.SettingsPath))
+            {
+                Directory.CreateDirectory(Paths.SettingsPath);
             }
 
-            return new Options();
+            var settingsFile = Path.Combine(Paths.SettingsPath, "XrmToolBox.Settings.xml");
+
+            if (File.Exists(settingsFile))
+            {
+                try
+                {
+                    var document = new XmlDocument();
+                    document.Load(settingsFile);
+
+                    options = (Options) XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Options));
+                    return true;
+                }
+                catch (Exception error)
+                {
+                    errorMessage = error.Message;
+                    options = new Options();
+                    return false;
+                }
+            }
+
+            options = new Options();
+            return true;
         }
 
         public object Clone()
@@ -106,13 +144,24 @@ namespace XrmToolBox
                 HiddenPlugins = HiddenPlugins,
                 LastUpdateCheck = LastUpdateCheck,
                 AllowLogUsage = AllowLogUsage,
-                CloseOpenedPluginsSilently = CloseOpenedPluginsSilently
+                CloseOpenedPluginsSilently = CloseOpenedPluginsSilently,
+                DisplayPluginsStoreOnStartup = DisplayPluginsStoreOnStartup,
+                DisplayPluginsStoreOnlyIfUpdates = DisplayPluginsStoreOnlyIfUpdates,
+                DoNotCheckForUpdates = DoNotCheckForUpdates,
+                MergeConnectionFiles = MergeConnectionFiles,
             };
         }
 
         public void Save()
         {
-            XmlSerializerHelper.SerializeToFile(this, "XrmToolBox.Settings.xml");
+            if (!Directory.Exists(Paths.SettingsPath))
+            {
+                Directory.CreateDirectory(Paths.SettingsPath);
+            }
+
+            var settingsFile = Path.Combine(Paths.SettingsPath, "XrmToolBox.Settings.xml");
+
+            XmlSerializerHelper.SerializeToFile(this, settingsFile);
         }
     }
 }
